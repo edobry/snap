@@ -1,5 +1,12 @@
-var snapchat = require("snapchat"),
-	fs = require('fs');
+var snapchat = require("snapchat"),	
+	fs = require("fs"),
+	sys = require("sys"),
+	util = require("./util");
+
+var stdin = process.openStdin();
+stdin.addListener("data", function(d) {
+	var d = d.toString().substring(0, d.length-1);
+});
 
 
 var client = new snapchat.Client();
@@ -9,7 +16,7 @@ if(!fs.existsSync('./images')) {
     fs.mkdirSync('./images');
 }
 
-client.login('USERNAME', 'PASSWORD').then(function(data) {
+client.login('gingervitiz', '').then(function(data) {
     // Handle any problems, such as wrong password
     if (typeof data.snaps === 'undefined') {
         console.log(data);
@@ -25,9 +32,9 @@ client.login('USERNAME', 'PASSWORD').then(function(data) {
             // Save the image to ./images/{SENDER USERNAME}_{SNAP ID}.jpg
             var stream = fs.createWriteStream('./images/' + snap.sn + '_' + snap.id + '.jpg', { flags: 'w', encoding: null, mode: 0666 });
             client.getBlob(snap.id).then(function(blob) {
-		blob.pipe(stream);
-		blob.resume();
-	    });
+				blob.pipe(stream);
+				blob.resume();
+		    });
         }
     });
 });
