@@ -11,13 +11,13 @@ util.tail = function (arr) {
 util.makeAsker = function(stdin, stdout) {
 	return function (prompt, callback) {
 		stdin.resume();
-		stdout.write(question + ": ");
+		stdout.write(prompt + ": ");
 
 		stdin.once('data', function(data) {
 			data = data.toString().trim();
 			callback(data);
 		});
-	}
+	};
 };
 
 module.exports = util;
