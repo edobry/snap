@@ -1,0 +1,25 @@
+<html>
+	<head>
+		<title>test</title>
+	</head>
+	<body>
+		<h4>socket test</h4>
+		<input id="file" type="file" />
+		<script src="node_modules/socket.io/socket.io.js"></script>
+		<script src="node_modules/socket.io-stream/socket.io-stream.js"></script>
+		<script src="node_modules/jquery/dist/jquery.min.js"></script>
+		<script>
+		$(function() {
+			var socket = io.connect('/foo');
+			$('#file').change(function(e) {
+				var file = e.target.files[0];
+				var stream = ss.createStream();
+
+				// upload a file to the server.
+				ss(socket).emit('file', stream, {size: file.size});
+				ss.createBlobReadStream(file).pipe(stream);
+			});
+		});
+		</script>
+	</body>
+</html>

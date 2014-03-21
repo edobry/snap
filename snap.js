@@ -27,6 +27,12 @@ var saveSnaps = function (snaps) {
     });
 };
 
+var showSnaps = function (snaps) {
+    snaps.forEach(function(snap) {
+        
+    });
+};
+
 var stdin = process.openStdin(),
     stdout = process.stdout;
 
