@@ -9,17 +9,17 @@
 		<script src="socket.io-stream.js"></script>
 		<script src="node_modules/jquery/dist/jquery.min.js"></script>
 		<script>
-		$(function() {
-			var socket = io.connect('/foo');
-			$('#file').change(function(e) {
-				var file = e.target.files[0];
-				var stream = ss.createStream();
+			$(function() {
+				var socket = io.connect('/foo');
+				$('#file').change(function(e) {
+					var file = e.target.files[0];
+					var stream = ss.createStream();
 
-				// upload a file to the server.
-				ss(socket).emit('file', stream, {size: file.size});
-				ss.createBlobReadStream(file).pipe(stream);
+					// upload a file to the server.
+					ss(socket).emit('file', stream, {size: file.size});
+					ss.createBlobReadStream(file).pipe(stream);
+				});
 			});
-		});
 		</script>
 	</body>
-</html>
+</html>	
