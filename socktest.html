@@ -1,22 +1,24 @@
+<!doctype html>
 <html>
 	<head>
 		<title>test</title>
+
+		<script src="socket.io.js"></script>
+		<script src="socket.io-stream.js"></script>
+		<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 	</head>
 	<body>
 		<h4>socket test</h4>
 		<input id="file" type="file" />
-		<script src="socket.io.js"></script>
-		<script src="socket.io-stream.js"></script>
-		<script src="node_modules/jquery/dist/jquery.min.js"></script>
-		<script>
+		<script type="text/javascript">
 			$(function() {
-				var socket = io.connect('/foo');
+				var socket = io.connect('localhost/user');
 				$('#file').change(function(e) {
 					var file = e.target.files[0];
 					var stream = ss.createStream();
 
 					// upload a file to the server.
-					ss(socket).emit('file', stream, {size: file.size});
+					ss(socket).emit('profile-image', stream, file.name);
 					ss.createBlobReadStream(file).pipe(stream);
 				});
 			});

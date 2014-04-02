@@ -1,0 +1,30 @@
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div id="btnLoad">Load</div>
+	<img src="data:image/gif;base64,"/>
+
+	<script type="text/javascript">
+		$(function () {
+			var image = $("img");
+			$("#btnLoad").click(function() {
+				$.get("data").done(function (data) {
+					var pos = 0;
+					var next = function (func) {
+						setTimeout(function () {
+							image.attr("src", image.attr("src") + data[pos++]);
+							if(pos < data.length) func(func);
+						}, .01);
+					};
+					next(next);
+//					data.split('').forEach(function (elem, i) {
+//						image.attr("src", image.attr("src") + elem);
+//					});
+				});
+			});
+		});
+	</script>
+</body>
+</html>

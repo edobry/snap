@@ -1,0 +1,28 @@
+<html>
+<head>
+	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+</head>
+<body>
+	<div id="btnLoad">Load</div>
+	<canvas width="310" height="500"></canvas>
+
+	<script type="text/javascript">
+		$(function () {
+			var image = $("img");
+			$("#btnLoad").click(function() {
+				var canvas = $("canvas");
+				var context = canvas[0].getContext
+				$.get("data").done(function (data) {
+					var bytes = new Uint8Array(data.length);
+					var image = context.createImageData(imageCanvas.width, imageCanvas.height);
+					for (var i=0; i<image.length; i++) {
+					    image.data[i] = bytes[i];
+					}
+					context.drawImage(image, 0, 0);
+
+				});
+			});
+		});
+	</script>
+</body>
+</html>
