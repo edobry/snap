@@ -12,14 +12,15 @@
 		<input id="file" type="file" />
 		<script type="text/javascript">
 			$(function() {
-				var socket = io.connect('localhost/user');
-				$('#file').change(function(e) {
-					var file = e.target.files[0];
-					var stream = ss.createStream();
+				var socket = io.connect('localhost/test');
 
-					// upload a file to the server.
-					ss(socket).emit('profile-image', stream, file.name);
-					ss.createBlobReadStream(file).pipe(stream);
+				ss(socket).on('blob', function(stream, data) {
+					stream.on('data', function(chunk) {
+						// use a chunk of image. a chunk is a Buffer.
+					});
+					stream.on('end', function() {
+						// download finished
+					});
 				});
 			});
 		</script>

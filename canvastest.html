@@ -1,5 +1,7 @@
 <html>
 <head>
+	<script src="socket.io.js"></script>
+	<script src="socket.io-stream.js"></script>
 	<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 </head>
 <body>
@@ -8,19 +10,32 @@
 
 	<script type="text/javascript">
 		$(function () {
+			var canvas = $("canvas")[0];
+			var context = canvas.getContext("2d");
 			var image = $("img");
-			$("#btnLoad").click(function() {
-				var canvas = $("canvas");
-				var context = canvas[0].getContext
-				$.get("data").done(function (data) {
-					var bytes = new Uint8Array(data.length);
-					var image = context.createImageData(imageCanvas.width, imageCanvas.height);
-					for (var i=0; i<image.length; i++) {
-					    image.data[i] = bytes[i];
-					}
-					context.drawImage(image, 0, 0);
 
+			$("#btnLoad").click(function() {
+				var image = context.createImageData(canvas.width, canvas.height);
+				var imgArr = image.data;
+				var pos = 0;
+					
+				var socket = io.connect('http://localhost:80/test');
+				ss(socket).on('blob', function(stream) {
+					stream.on('data', function(chunk) {
+						var bytes = new Uint8Array(chunk);
+						var offset = pos;
+						for (var i = 0; i<bytes.length; i++) {
+						    imgArr[offset + i] = bytes[i];
+						}
+						pos += i;
+
+						context.putImageData(image, 0, 0);
+					});
+					stream.on('end', function() {
+						
+					});
 				});
+				socket.emit('ready');
 			});
 		});
 	</script>
