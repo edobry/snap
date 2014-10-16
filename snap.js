@@ -19,6 +19,7 @@ var listen = function () {
         socket.on('ready', function (){
             //_snaps.forEach(function(snap) {
                 // Make sure the snap item is unopened and sent to you (not sent by you)
+<<<<<<< Updated upstream
                 var snap = _snaps[0];
                 if (typeof snap.sn !== 'undefined' && typeof snap.t !== 'undefined' && snap.st == 1) {
                     console.log('Saving snap from ' + snap.sn + '...');
@@ -37,6 +38,18 @@ var listen = function () {
                         blob.resume();
                     });
                 }
+=======
+                var snap = util.filter(_snaps, function (e, i) { return typeof e.sn !== 'undefined' && typeof e.t !== 'undefined' && e.st == 1 })[0];
+                
+                console.log('Sending snap from ' + snap.sn + '...');
+                client.getBlob(snap.id).then(function(blob) {
+                    var stream = ss.createStream();
+                    ss(socket).emit('blob', stream);
+
+                    blob.pipe(stream);
+                    blob.resume();
+                });
+>>>>>>> Stashed changes
             //});
         });
     });

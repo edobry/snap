@@ -20,4 +20,14 @@ util.makeAsker = function(stdin, stdout) {
 	};
 };
 
+util.filter = function (arr, pred) {
+	var out = [];
+	for(var i in arr) {
+		var el = arr[i];
+		if (pred(el, i))
+			out.push(el);
+	}
+	return out;
+};
+
 module.exports = util;
