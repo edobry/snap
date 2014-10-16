@@ -21,11 +21,17 @@ var listen = function () {
                 // Make sure the snap item is unopened and sent to you (not sent by you)
                 var snap = _snaps[0];
                 if (typeof snap.sn !== 'undefined' && typeof snap.t !== 'undefined' && snap.st == 1) {
-                    console.log('Sending snap from ' + snap.sn + '...');
+                    console.log('Saving snap from ' + snap.sn + '...');
+
+                    var stream = fs.createWriteStream('./images/' + snap.sn + '_' + snap.id + '.jpg', {
+                        flags: 'w',
+                        encoding: null,
+                        mode: 0666
+                    });
 
                     client.getBlob(snap.id).then(function(blob) {
-                        var stream = ss.createStream();
-                        ss(socket).emit('blob', stream);
+                        // var stream = ss.createStream();
+                        // ss(socket).emit('blob', stream);
 
                         blob.pipe(stream);
                         blob.resume();
