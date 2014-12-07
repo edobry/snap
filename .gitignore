@@ -11,6 +11,10 @@ pids
 logs
 results
 images/*
+_images/*
+bower_components/*
 
 npm-debug.log
 node_modules
+
+*.DS_Store
