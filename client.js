@@ -2,15 +2,8 @@ var snapchat = require("snapchat");
 
 var client = new snapchat.Client();
 
-client.getSnaps = function(username, password, cb) {
-	client.login(username, password).then(function(data) {
-		if (typeof data.snaps === 'undefined') {
-			console.log(data);
-			return;
-		}
-
-		cb(data.snaps);
-	});
+client.getSnaps = function(username, password) {
+	return client.login(username, password);
 };
 
 module.exports = client;
