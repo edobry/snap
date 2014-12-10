@@ -11,7 +11,11 @@ $(function() {
 			url: "/login",
 			contentType: "application/json",
 			data: JSON.stringify({ user: user, pass: pass })
-		}).done(console.log);
+		}).done(function(images) {
+			$("#snaps").html(images.map(function(image) {
+				return $("<span>").text(image);
+			}));
+		});
 
 		return false;
 	});
