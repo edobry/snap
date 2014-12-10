@@ -12,45 +12,35 @@ var stdin = process.openStdin(),
 
 var _snaps = [];
 
+var getSnaps = function(_snaps) {
+    _snaps.forEach(function(snap) {
+        // Make sure the snap item is unopened and sent to you (not sent by you)
+        if (typeof snap.sn !== 'undefined' && typeof snap.t !== 'undefined' && snap.st == 1) {
+            console.log('Saving snap from ' + snap.sn + '...');
+
+            var stream = fs.createWriteStream('./images/' + snap.sn + '_' + snap.id + '.jpg', {
+                flags: 'w',
+                encoding: null,
+                mode: 0666
+            });
+
+            client.getBlob(snap.id).then(function(blob) {
+                // var stream = ss.createStream();
+                // ss(socket).emit('blob', stream);
+
+                blob.pipe(stream);
+                blob.resume();
+            });
+        }
+    });
+};
+
 var listen = function () {
     io = io.listen(80);
     console.log("Listening on port 80");
     io.of('/test').on('connection', function(socket) {
         socket.on('ready', function (){
-            //_snaps.forEach(function(snap) {
-                // Make sure the snap item is unopened and sent to you (not sent by you)
-<<<<<<< Updated upstream
-                var snap = _snaps[0];
-                if (typeof snap.sn !== 'undefined' && typeof snap.t !== 'undefined' && snap.st == 1) {
-                    console.log('Saving snap from ' + snap.sn + '...');
-
-                    var stream = fs.createWriteStream('./images/' + snap.sn + '_' + snap.id + '.jpg', {
-                        flags: 'w',
-                        encoding: null,
-                        mode: 0666
-                    });
-
-                    client.getBlob(snap.id).then(function(blob) {
-                        // var stream = ss.createStream();
-                        // ss(socket).emit('blob', stream);
-
-                        blob.pipe(stream);
-                        blob.resume();
-                    });
-                }
-=======
-                var snap = util.filter(_snaps, function (e, i) { return typeof e.sn !== 'undefined' && typeof e.t !== 'undefined' && e.st == 1 })[0];
-                
-                console.log('Sending snap from ' + snap.sn + '...');
-                client.getBlob(snap.id).then(function(blob) {
-                    var stream = ss.createStream();
-                    ss(socket).emit('blob', stream);
-
-                    blob.pipe(stream);
-                    blob.resume();
-                });
->>>>>>> Stashed changes
-            //});
+            
         });
     });
 };
@@ -59,9 +49,11 @@ var ask = util.makeAsker(stdin, stdout);
 ask("Username", function(user) {
     ask("Password", function(pass) {
         client.getSnaps(user, pass, function (snaps) {
-            _snaps = snaps;
+            getSnaps(snaps);
 
-            listen();
+            //_snaps = snaps;
+
+            //listen();
         });
     });
 });
