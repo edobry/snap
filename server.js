@@ -28,21 +28,17 @@ var login = function(req, res) {
 
 		getSnaps(creds).done(function(images) {
 			var out = JSON.stringify(images);
-			console.log(out);
 			res.write(out);
+			setTimeout(function() {res.end();}, 5000);
 		});
-
-		res.end();
     });
 
 	var getSnaps = function(creds) {
 		return client.getSnaps(creds.user, creds.pass).then(function(data) {
 			console.log("they're using an older code but it checks out");
 			var images = data.snaps.filter(function(snap) {
-				return snap.rp && snap.ts && snap.st == 1;
+				return snap.rp && snap.ts;
 			}).map(function(snap) {
-		        console.log("Snap from " + snap.rp);
-
 		        var path = "./images/" + snap.rp + '_' + snap.id + ".jpg";
 
 		        var stream = fs.createWriteStream(path, {
@@ -54,16 +50,15 @@ var login = function(req, res) {
 		        client.getBlob(snap.id).then(function(blob) {
 		            // var stream = ss.createStream();
 		            // ss(socket).emit('blob', stream);
-
+		            console.log(blob);
 		            blob.pipe(stream);
 		            blob.resume();
 		        });
-		        console.log(path);
+
 		        return path;
 		    });
 
 			console.log("snaps get");
-		    console.log(images);
 
 		    return images;
 		});
