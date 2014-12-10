@@ -39,7 +39,7 @@ var login = function(req, res) {
 			var images = data.snaps.filter(function(snap) {
 				return typeof snap.sn !== 'undefined' && typeof snap.t !== 'undefined' && snap.st == 1;
 			}).map(function(snap) {
-		        var path = "./images/" + snap.sn + '_' + snap.id + ".jpg";
+		        var path = "images/" + snap.sn + '_' + snap.id + ".jpg";
 
 		        var stream = fs.createWriteStream(path, {
 		            flags: 'w',

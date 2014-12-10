@@ -13,7 +13,7 @@ $(function() {
 			data: JSON.stringify({ user: user, pass: pass })
 		}).done(function(images) {
 			$("#snaps").html(images.map(function(image) {
-				return $("<span>").text(image);
+				return $("<img>").attr("src", "/static/" + image);
 			}));
 		});
 
