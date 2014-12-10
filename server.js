@@ -20,7 +20,7 @@ var login = function(req, res) {
     
     req.on("end", function() {
 		var creds = JSON.parse(body);
-		console.log(creds);
+		console.log("user: " + creds.user);
 
 		res.writeHead(200, "OK", {
 			"Content-Type": "application/json",
@@ -78,7 +78,7 @@ var routes = {
 
 http.createServer(function(req, res) {
 	var path = req.url.split('/');
-
+	console.log("request path: " + path);
 	var handler = routes[path[1]];
 
 	req.url = path.slice(2).join('/');
