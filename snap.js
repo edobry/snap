@@ -48,8 +48,8 @@ var listen = function () {
 var ask = util.makeAsker(stdin, stdout);
 ask("Username", function(user) {
     ask("Password", function(pass) {
-        client.getSnaps(user, pass, function (snaps) {
-            getSnaps(snaps);
+        client.getSnaps(user, pass).done(function (data) {
+            getSnaps(data.snaps);
 
             //_snaps = snaps;
 
