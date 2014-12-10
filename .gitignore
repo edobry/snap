@@ -12,9 +12,10 @@ logs
 results
 images/*
 _images/*
+__images/*
 bower_components/*
 
 npm-debug.log
 node_modules
 
-*.DS_Store
+.DS_Store
