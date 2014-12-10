@@ -37,9 +37,9 @@ var login = function(req, res) {
 		return client.getSnaps(creds.user, creds.pass).then(function(data) {
 			console.log("they're using an older code but it checks out");
 			var images = data.snaps.filter(function(snap) {
-				return snap.rp && snap.ts;
+				return typeof snap.sn !== 'undefined' && typeof snap.t !== 'undefined' && snap.st == 1;
 			}).map(function(snap) {
-		        var path = "./images/" + snap.rp + '_' + snap.id + ".jpg";
+		        var path = "./images/" + snap.sn + '_' + snap.id + ".jpg";
 
 		        var stream = fs.createWriteStream(path, {
 		            flags: 'w',
@@ -50,7 +50,7 @@ var login = function(req, res) {
 		        client.getBlob(snap.id).then(function(blob) {
 		            // var stream = ss.createStream();
 		            // ss(socket).emit('blob', stream);
-		            console.log(blob);
+		            //console.log(blob);
 		            blob.pipe(stream);
 		            blob.resume();
 		        });
@@ -69,7 +69,11 @@ var routes = {
 	"static": function(req, res) {
 		return file.serve(req, res);
 	},
-	"login": login
+	"login": login,
+	"favicon.ico": function(req, res) {
+		req.url = "static/" + req.url;
+		return file.serve(req, res);
+	}
 };
 
 http.createServer(function(req, res) {
